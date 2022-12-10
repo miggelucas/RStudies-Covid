@@ -1,21 +1,24 @@
 ## Hello world
 
 ## import packages
-load(psych)
 library(psych)
 library(polycor)
 
 
 ## dataframe
-df <- read.csv("~/Documentos/UFPE/Covid/Covid Instrument/NEAP Covid (respostas) - componentes - Covid.csv", header = TRUE, sep = ",")
+df <- read.csv("~/Documentos/UFPE/Covid/Covid Instrument/Data/NEAP Covid (respostas) - componentes - Covid.csv", header = TRUE, sep = ",")
 
 ## Correlation
 corr_matrix <- cor(df, method = "pearson")
 corr_matrix_poly <- polychoric(df,)[["rho"]]
 
-corr_matrix_poly
+## screen plot
+fa.parallel(df, fa = "fa", cor = "poly", fm = "wls")
+
 ## FA
 
 EFA <- fa(df, nfactors = 2, rotate = "oblimin", fm = "wls", cor = "poly")
 loadings <- EFA$loadings
 plot(loadings)
+
+alpha(df)
